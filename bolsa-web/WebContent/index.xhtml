@@ -1,0 +1,63 @@
+<html xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:h="http://java.sun.com/jsf/html" 
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+  <h:head>
+    <title> Bolsa Web</title>
+  </h:head>
+  <h:body>
+  
+ <h:form id="dadosGrafico">
+  <p:messages autoUpdate="true" />
+  <h:panelGrid columns="7">
+  
+   <h:outputLabel value="Título Gráfico: "/>
+   <p:inputText id="titulo" value="#{argentumBean.titulo}" required="true"/>
+  
+  <h:outputLabel value="Media Móvel: "/>
+<p:selectOneButton value="#{argentumBean.nomeMedia}">
+  <f:selectItem itemLabel="Simples" itemValue="MediaMovelSimples" />
+  <f:selectItem itemLabel="Ponderada" itemValue="MediaMovelPonderada" />
+</p:selectOneButton>
+
+ <h:outputLabel value="Indicador base: "/>
+<p:selectOneButton value="#{argentumBean.nomeIndicadorBase}">
+  <f:selectItem itemLabel="Abertura" itemValue="IndicadorAbertura" />
+  <f:selectItem itemLabel="Fechamento" itemValue="IndicadorFechamento"/>
+</p:selectOneButton>
+<p:commandButton value="Gerar gráfico" update=":grafico"
+             action="#{argentumBean.geraGrafico}"/>
+  </h:panelGrid>
+</h:form>
+  
+  
+  <p:chart id="grafico" type="line" model="#{argentumBean.modeloGrafico}" />
+  
+  <h:form>
+  
+  <p:dataTable var="negociacao" value="#{argentumBean.negociacoes}" paginator="true" rows="25">
+  
+  <p:column sortBy="#{negociacao.preco}" headerText="Preço">
+  <h:outputText value="#{negociacao.preco}"/>
+  </p:column>
+  
+  <p:column  sortBy="#{negociacao.quantidade}" headerText="Quantidade">
+  <h:outputText value="#{negociacao.quantidade}" />
+  </p:column> 
+  
+  <p:column sortBy="#{negociacao.volume}" headerTex="Volume">
+  <h:outputText value="#{negociacao.volume}" />
+  </p:column>
+  
+  <p:column sortBy="#{negociacao.data}"  headerText="Data">
+  <h:outputText value="#{negociacao.data.time}" >
+  <f:convertDateTime pattern="dd/MM/yyyy" />
+  </h:outputText>
+  </p:column>
+  
+  </p:dataTable>
+  
+  </h:form>
+  
+  </h:body>
+</html>
